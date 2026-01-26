@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior .NET Developer @ YouDo — Тестовое задание</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SuisseIntl', Arial, sans-serif;
+            color: #191919;
+            line-height: 1.6;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 40px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #191919;
+        }
+
+        .logo span {
+            color: #ff4646;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            color: #191919;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            color: #191919;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 24px 0 12px;
+            color: #191919;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .section {
+            padding: 40px 0;
+        }
+
+        .section-alt {
+            background: #f5f5f5;
+            padding: 40px 0;
+            margin: 40px 0;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin: 24px 0;
+        }
+
+        ul {
+            margin: 16px 0 16px 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        ol {
+            margin: 16px 0 16px 24px;
+        }
+
+        ol li {
+            margin-bottom: 12px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            border-left: 4px solid #ff4646;
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .highlight p {
+            margin: 0;
+            font-style: italic;
+            color: #444;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .tech-tag {
+            background: #f5f5f5;
+            padding: 8px 16px;
+            border-radius: 46px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ff4646;
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 46px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s ease;
+            margin: 8px 8px 8px 0;
+        }
+
+        .btn:hover {
+            background: #eb3232;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ff4646;
+            color: #ff4646;
+        }
+
+        .btn-outline:hover {
+            background: #ff4646;
+            color: #ffffff;
+        }
+
+        .criteria-list {
+            counter-reset: criteria;
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .criteria-list li {
+            counter-increment: criteria;
+            padding-left: 48px;
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .criteria-list li::before {
+            content: counter(criteria);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: #ff4646;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .contact-block {
+            background: #191919;
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            margin: 32px 0;
+        }
+
+        .contact-block h3 {
+            color: #ffffff;
+            margin-top: 0;
+        }
+
+        .contact-block a {
+            color: #ff4646;
+            text-decoration: none;
+        }
+
+        .contact-block a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #191919;
+            color: #888;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #ff4646;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .contact-block {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">You<span>Do</span></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Senior .NET Developer</h1>
+            <p style="font-size: 18px; color: #666;">Тестовое задание для кандидатов</p>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <h2>О компании</h2>
+                <p><strong>YouDo</strong> — платформа, которая помогает людям и бизнесу быстро находить исполнителей для бытовых и рабочих задач. Аудитория — миллионы пользователей.</p>
+                <p>Мы развиваем core-платформу: переходим от монолита к распределённой архитектуре (20+ сервисов и приложений), повышаем надёжность и производительность.</p>
+                <p>Мы активно используем AI-инструменты в разработке (Cursor/Codex/Claude и аналоги) как часть ежедневного процесса: для ускорения реализации, рефакторинга, генерации тестов и анализа инцидентов.</p>
+            </div>
+        </section>
+
+        <div class="section-alt">
+            <div class="container">
+                <h2>Вакансия</h2>
+                <p>Ищем сильного <strong>Senior Individual Contributor</strong>: без people-management, но с большим техническим влиянием и ownership.</p>
+
+                <h3>Чем предстоит заниматься</h3>
+                <ul>
+                    <li>Владеть сервисами/доменом end-to-end: проектирование, разработка, поддержка в проде</li>
+                    <li>Декомпозировать монолит: выделять сервисы, проектировать контракты, планировать миграции</li>
+                    <li>Проектировать интеграции: HTTP/RabbitMQ/Kafka, ретраи, дедупликация, идемпотентность</li>
+                    <li>Работать с данными: PostgreSQL/MS SQL — индексы, планы запросов, блокировки, транзакции</li>
+                    <li>Улучшать производительность и стабильность: профилирование, GC/аллокации, p95/p99</li>
+                </ul>
+
+                <h3>Требования</h3>
+                <ul>
+                    <li><strong>Обязательно:</strong> уверенный практический опыт работы с AI-инструментами (Cursor/Codex/Claude)</li>
+                    <li>Senior-уровень в .NET (5+ лет): C#, ASP.NET Core, async/await, concurrency</li>
+                    <li>Опыт проектирования и поддержки production-систем</li>
+                    <li>Сильная база по реляционным БД: оптимизация запросов, индексы, транзакции</li>
+                    <li>Опыт с брокерами сообщений (RabbitMQ/Kafka)</li>
+                </ul>
+
+                <h3>Технологии</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">.NET 8</span>
+                    <span class="tech-tag">C#</span>
+                    <span class="tech-tag">ASP.NET Core</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">MS SQL</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">Elasticsearch</span>
+                    <span class="tech-tag">RabbitMQ</span>
+                    <span class="tech-tag">Kafka</span>
+                    <span class="tech-tag">GitLab CI/CD</span>
+                </div>
+
+                <h3>Условия</h3>
+                <ul>
+                    <li>Оформление по ТК РФ, «белая» зарплата</li>
+                    <li>Офисы Москва/Казань или полностью удалённо (любая страна)</li>
+                    <li>Сложные инженерные задачи: масштаб, перформанс, миграция к микросервисам</li>
+                    <li>Бюджет на обучение и AI-инструменты</li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <h2>Тестовое задание</h2>
+
+                <div class="highlight">
+                    <p>Мы заботимся о пользователях и хотим максимально быстро помочь им найти ответы на вопросы. У нас есть база знаний с 66 статьями FAQ. Нужен бот, который поможет пользователям находить нужную информацию.</p>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top: 0;">Задача</h3>
+                    <p>Создать <strong>Telegram-бота на .NET</strong>, который отвечает на вопросы пользователей по базе знаний YouDo.</p>
+
+                    <h3>Что должен делать бот</h3>
+                    <ol>
+                        <li>Принимать текстовый вопрос от пользователя</li>
+                        <li>Искать релевантные статьи в базе знаний</li>
+                        <li>Возвращать ответ на основе найденных статей</li>
+                    </ol>
+
+                    <h3>Технические требования</h3>
+                    <ul>
+                        <li><strong>Язык:</strong> C#, .NET 8</li>
+                        <li><strong>Telegram Bot API:</strong> polling или webhook — на ваш выбор</li>
+                        <li><strong>База знаний:</strong> файл <code>knowledge_base.json</code> в репозитории</li>
+                        <li><strong>Способ поиска</strong> — на ваше усмотрение:
+                            <ul style="margin-top: 8px;">
+                                <li>Простой поиск по ключевым словам</li>
+                                <li>Full-text search</li>
+                                <li>Семантический поиск с embeddings</li>
+                                <li>RAG с использованием LLM</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Что НЕ требуется</h3>
+                    <ul>
+                        <li>Сложный UI/UX</li>
+                        <li>База данных (можно работать с JSON напрямую)</li>
+                    </ul>
+                </div>
+
+                <h3>Критерии оценки</h3>
+                <ul class="criteria-list">
+                    <li><strong>Работоспособность</strong> — бот запускается и отвечает на вопросы</li>
+                    <li><strong>Качество кода</strong> — читаемость, структура, SOLID</li>
+                    <li><strong>Архитектура</strong> — разделение ответственности, расширяемость</li>
+                    <li><strong>AI-инструменты</strong> — как использовались в разработке (описать в README)</li>
+                    <li><strong>README</strong> — инструкция по запуску, описание решения</li>
+                </ul>
+
+                <div class="contact-block">
+                    <h3>Как сдать</h3>
+                    <ol>
+                        <li>Сделайте fork этого репозитория</li>
+                        <li>Реализуйте бота</li>
+                        <li>Добавьте README с инструкцией по запуску и описанием решения</li>
+                        <li>Отправьте ссылку на репозиторий:</li>
+                    </ol>
+                    <p style="margin-top: 16px;">
+                        <strong>Telegram:</strong> <a href="https://t.me/schartoym">@schartoym</a><br>
+                        <strong>Email:</strong> <a href="mailto:a.dudnik@youdo.com">a.dudnik@youdo.com</a>
+                    </p>
+                </div>
+
+                <a href="https://github.com/AIDotNet/youdo-dotnet-senior-test/fork" class="btn">Fork репозитория</a>
+                <a href="knowledge_base.json" class="btn btn-outline" download>Скачать базу знаний</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 YouDo. <a href="https://youdo.com" target="_blank">youdo.com</a></p>
+        </div>
+    </footer>
+</body>
+</html>
