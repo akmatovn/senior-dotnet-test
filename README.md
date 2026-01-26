@@ -9,7 +9,7 @@
 
 ## Файлы
 
-- `knowledge_base.json` — база знаний YouDo (66 статей FAQ)
+- `docs/knowledge_base.json` — база знаний YouDo (66 статей FAQ)
 - `docs/index.html` — страница с описанием задания
 
 ## Контакты
