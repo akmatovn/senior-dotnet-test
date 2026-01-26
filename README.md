@@ -5,7 +5,7 @@
 ## Задание
 
 Подробное описание задания доступно на странице:
-**[Открыть задание](https://youdo.github.io/youdo-dotnet-senior-test/)**
+**[Открыть задание](https://youdoteam.github.io/senior-dotnet-test/)**
 
 ## Файлы
 

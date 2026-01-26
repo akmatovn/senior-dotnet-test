@@ -4,6 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Senior .NET Developer @ YouDo — Тестовое задание</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Тестовое задание для кандидатов на позицию Senior .NET Developer в YouDo. Создайте Telegram-бота на .NET, который отвечает на вопросы по базе знаний.">
+    <meta name="keywords" content="YouDo, Senior .NET Developer, вакансия, тестовое задание, C#, .NET 8, Telegram Bot, разработчик">
+    <meta name="author" content="YouDo">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://youdoteam.github.io/senior-dotnet-test/">
+    <meta property="og:title" content="Senior .NET Developer @ YouDo — Тестовое задание">
+    <meta property="og:description" content="Создайте Telegram-бота на .NET для ответов по базе знаний YouDo. Вакансия Senior .NET Developer с удалённой работой.">
+    <meta property="og:image" content="https://assets.youdo.com/_next/static/media/logo.99e28821.svg">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="YouDo">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Senior .NET Developer @ YouDo — Тестовое задание">
+    <meta name="twitter:description" content="Создайте Telegram-бота на .NET для ответов по базе знаний YouDo.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://youdoteam.github.io/senior-dotnet-test/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://youdo.com/favicon.ico">
+
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        "title": "Senior .NET Developer",
+        "description": "Создать Telegram-бота на .NET, который отвечает на вопросы пользователей по базе знаний YouDo. Тестовое задание для кандидатов.",
+        "datePosted": "2026-01-26",
+        "hiringOrganization": {
+            "@type": "Organization",
+            "name": "YouDo",
+            "sameAs": "https://youdo.com",
+            "logo": "https://assets.youdo.com/_next/static/media/logo.99e28821.svg"
+        },
+        "jobLocation": {
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Москва",
+                "addressCountry": "RU"
+            }
+        },
+        "jobLocationType": "TELECOMMUTE",
+        "employmentType": "FULL_TIME",
+        "skills": [".NET 8", "C#", "ASP.NET Core", "PostgreSQL", "RabbitMQ", "Kafka"]
+    }
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -26,31 +81,26 @@
 
         header {
             background: #ffffff;
-            padding: 40px 0;
+            padding: 20px 0;
             border-bottom: 1px solid #eee;
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: #191919;
-        }
-
-        .logo span {
-            color: #ff4646;
+            display: inline-block;
+            text-decoration: none;
         }
 
         h1 {
             font-size: 36px;
             font-weight: 700;
-            margin: 40px 0 20px;
+            margin: 24px 0 12px;
             color: #191919;
         }
 
         h2 {
             font-size: 24px;
             font-weight: 600;
-            margin: 40px 0 20px;
+            margin: 24px 0 12px;
             color: #191919;
         }
 
@@ -67,21 +117,21 @@
         }
 
         .section {
-            padding: 40px 0;
+            padding: 24px 0;
         }
 
         .section-alt {
             background: #f5f5f5;
-            padding: 40px 0;
-            margin: 40px 0;
+            padding: 24px 0;
+            margin: 24px 0;
         }
 
         .card {
             background: #ffffff;
             border-radius: 16px;
-            padding: 32px;
+            padding: 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin: 24px 0;
+            margin: 16px 0;
         }
 
         ul {
@@ -103,8 +153,8 @@
         .highlight {
             background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
             border-left: 4px solid #ff4646;
-            padding: 20px 24px;
-            margin: 24px 0;
+            padding: 16px 20px;
+            margin: 16px 0;
             border-radius: 0 12px 12px 0;
         }
 
@@ -189,14 +239,20 @@
         .contact-block {
             background: #191919;
             color: #ffffff;
-            padding: 40px;
+            padding: 24px;
             border-radius: 16px;
-            margin: 32px 0;
+            margin: 24px 0;
         }
 
         .contact-block h3 {
             color: #ffffff;
             margin-top: 0;
+        }
+
+        .contact-block ol,
+        .contact-block li,
+        .contact-block p {
+            color: #ffffff;
         }
 
         .contact-block a {
@@ -218,10 +274,13 @@
 
         footer {
             background: #191919;
-            color: #888;
-            padding: 40px 0;
+            padding: 24px 0;
             text-align: center;
-            margin-top: 60px;
+            margin-top: 32px;
+        }
+
+        footer p {
+            color: #ffffff;
         }
 
         footer a {
@@ -251,7 +310,9 @@
 <body>
     <header>
         <div class="container">
-            <div class="logo">You<span>Do</span></div>
+            <a href="https://youdo.com" class="logo">
+                <img src="https://assets.youdo.com/_next/static/media/logo.99e28821.svg" alt="YouDo" height="32">
+            </a>
         </div>
     </header>
 
@@ -341,20 +402,6 @@
                         <li><strong>Язык:</strong> C#, .NET 8</li>
                         <li><strong>Telegram Bot API:</strong> polling или webhook — на ваш выбор</li>
                         <li><strong>База знаний:</strong> файл <code>knowledge_base.json</code> в репозитории</li>
-                        <li><strong>Способ поиска</strong> — на ваше усмотрение:
-                            <ul style="margin-top: 8px;">
-                                <li>Простой поиск по ключевым словам</li>
-                                <li>Full-text search</li>
-                                <li>Семантический поиск с embeddings</li>
-                                <li>RAG с использованием LLM</li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <h3>Что НЕ требуется</h3>
-                    <ul>
-                        <li>Сложный UI/UX</li>
-                        <li>База данных (можно работать с JSON напрямую)</li>
                     </ul>
                 </div>
 
@@ -363,7 +410,7 @@
                     <li><strong>Работоспособность</strong> — бот запускается и отвечает на вопросы</li>
                     <li><strong>Качество кода</strong> — читаемость, структура, SOLID</li>
                     <li><strong>Архитектура</strong> — разделение ответственности, расширяемость</li>
-                    <li><strong>AI-инструменты</strong> — как использовались в разработке (описать в README)</li>
+                    <li><strong>Использование AI-инструментов</strong> — как использовались в разработке (описать в README)</li>
                     <li><strong>README</strong> — инструкция по запуску, описание решения</li>
                 </ul>
 
@@ -381,7 +428,7 @@
                     </p>
                 </div>
 
-                <a href="https://github.com/AIDotNet/youdo-dotnet-senior-test/fork" class="btn">Fork репозитория</a>
+                <a href="https://github.com/YouDoTeam/senior-dotnet-test/fork" class="btn">Fork репозитория</a>
                 <a href="knowledge_base.json" class="btn btn-outline" download>Скачать базу знаний</a>
             </div>
         </section>
