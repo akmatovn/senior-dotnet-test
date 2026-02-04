@@ -27,6 +27,7 @@ public class BotBackgroundService(
     /// <param name="stoppingToken">Cancellation token for graceful shutdown.</param>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        _logger.LogInformation("BotBackgroundService starting...");
         var receiverOptions = new ReceiverOptions
         {
             AllowedUpdates = Array.Empty<UpdateType>() // Receive all update types
@@ -43,5 +44,6 @@ public class BotBackgroundService(
         Console.WriteLine("Bot started and ready to work!");
 
         await Task.Delay(Timeout.Infinite, stoppingToken);
+        _logger.LogInformation("BotBackgroundService stopped.");
     }
 }

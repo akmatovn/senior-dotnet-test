@@ -1,4 +1,4 @@
-namespace YouDoFaqBot.Settings;
+namespace YouDoFaqBot.Core.Settings;
 
 /// <summary>
 /// Configuration options for the Telegram bot.

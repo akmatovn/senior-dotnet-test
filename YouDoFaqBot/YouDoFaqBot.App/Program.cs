@@ -3,11 +3,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
+using YouDoFaqBot.App.BackgroundServices;
 using YouDoFaqBot.BackgroundServices;
-using YouDoFaqBot.Interfaces;
-using YouDoFaqBot.Services;
-using YouDoFaqBot.Settings;
-using YouDoFaqBot.Telegram;
+using YouDoFaqBot.Core.Interfaces;
+using YouDoFaqBot.Core.Services;
+using YouDoFaqBot.Core.Settings;
+using YouDoFaqBot.Core.Telegram;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -47,7 +48,7 @@ builder.Services.AddSingleton<ITelegramBotClient>(sp =>
 /// <summary>
 /// Ensures the knowledge base is loaded before starting the bot.
 /// </summary>
-builder.Services.AddHostedService<KnowledgeBaseHostedService>();
+builder.Services.AddHostedService<KnowledgeBaseBackgroundService>();
 
 /// <summary>
 /// Registers the background service that starts the Telegram bot and listens for updates.
