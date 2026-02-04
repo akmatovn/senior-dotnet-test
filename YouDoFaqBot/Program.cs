@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Telegram.Bot;
+using Telegram.Bot.Polling;
 using YouDoFaqBot.Services;
 using YouDoFaqBot.Telegram;
 
@@ -13,7 +14,7 @@ builder.Services.Configure<TelegramOptions>(
     builder.Configuration.GetSection("Telegram"));
 
 builder.Services.AddSingleton<IKnowledgeBaseService, KnowledgeBaseService>();
-builder.Services.AddSingleton<UpdateHandler>();
+builder.Services.AddSingleton<IUpdateHandler, UpdateHandler>();
 builder.Services.AddSingleton<ITelegramBotClient>(sp =>
 {
     var options = builder.Configuration.GetSection("Telegram").Get<TelegramOptions>()!;
