@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  youdo-faq-bot:
+    build: .
+    container_name: youdo-faq-bot
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    volumes:
+      - ./YouDoFaqBot.App/appsettings.json:/app/appsettings.json:ro
+      - ./YouDoFaqBot.App/knowledge_base.json:/app/knowledge_base.json:ro
+    restart: unless-stopped
