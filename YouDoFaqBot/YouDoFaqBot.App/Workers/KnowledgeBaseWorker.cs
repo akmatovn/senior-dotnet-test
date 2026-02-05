@@ -1,20 +1,27 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using YouDoFaqBot.Core.Interfaces;
+using YouDoFaqBot.Core.Settings;
 
-namespace YouDoFaqBot.App.BackgroundServices;
+namespace YouDoFaqBot.App.Workers;
 
 /// <summary>
 /// Background service that loads the knowledge base from a JSON file at application startup.
 /// Ensures the knowledge base is available as a singleton for fast access throughout the bot's lifetime.
 /// </summary>
-public class KnowledgeBaseBackgroundService(
+/// <param name="kbService">The service responsible for managing the knowledge base.</param>
+/// <param name="options">The options containing the knowledge base file path.</param>
+/// <param name="logger">The logger instance for logging events and errors.</param>
+public class KnowledgeBaseWorker(
     IKnowledgeBaseService kbService,
-    ILogger<KnowledgeBaseBackgroundService> logger)
+    IOptions<KnowledgeBaseOptions> options,
+    ILogger<KnowledgeBaseWorker> logger)
     : BackgroundService
 {
     private readonly IKnowledgeBaseService _kbService = kbService;
-    private readonly ILogger<KnowledgeBaseBackgroundService> _logger = logger;
+    private readonly KnowledgeBaseOptions _options = options.Value;
+    private readonly ILogger<KnowledgeBaseWorker> _logger = logger;
 
     /// <summary>
     /// Executes the background service logic to load the knowledge base.
@@ -27,7 +34,7 @@ public class KnowledgeBaseBackgroundService(
         _logger.LogInformation("KnowledgeBaseHostedService starting...");
         try
         {
-            await _kbService.LoadFromFileAsync("knowledge_base.json", stoppingToken);
+            await _kbService.LoadFromFileAsync(_options.FilePath, stoppingToken);
             _logger.LogInformation("Knowledge base loaded successfully.");
         }
         catch (Exception ex)

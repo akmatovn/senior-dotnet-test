@@ -2,62 +2,77 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Telegram.Bot;
-using Telegram.Bot.Polling;
-using YouDoFaqBot.App.BackgroundServices;
-using YouDoFaqBot.BackgroundServices;
+using YouDoFaqBot.App.Telegram;
+using YouDoFaqBot.App.Workers;
+using YouDoFaqBot.Core.Handlers;
+using YouDoFaqBot.Core.Handlers.MessageHandlers;
 using YouDoFaqBot.Core.Interfaces;
 using YouDoFaqBot.Core.Services;
 using YouDoFaqBot.Core.Settings;
-using YouDoFaqBot.Core.Telegram;
-
-var builder = Host.CreateApplicationBuilder(args);
 
 /// <summary>
-/// Loads application settings from appsettings.json.
+/// Entry point for the YouDo FAQ Bot application.
+/// Configures dependency injection, loads configuration, and starts the host.
 /// </summary>
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-/// <summary>
-/// Binds Telegram bot options from configuration.
-/// </summary>
-builder.Services.Configure<TelegramOptions>(builder.Configuration.GetSection("Telegram"));
-
-/// <summary>
-/// Registers the knowledge base service as a singleton for fast in-memory access.
-/// </summary>
-builder.Services.AddSingleton<IKnowledgeBaseService, KnowledgeBaseService>();
-
-/// <summary>
-/// Registers the Telegram update handler for processing incoming messages.
-/// </summary>
-builder.Services.AddSingleton<IUpdateHandler, UpdateHandler>();
-
-/// <summary>
-/// Registers the Telegram bot client using the configured bot token.
-/// </summary>
-builder.Services.AddSingleton<ITelegramBotClient>(sp =>
-{
-    var options = builder.Configuration.GetSection("Telegram").Get<TelegramOptions>();
-    if (options is null || string.IsNullOrWhiteSpace(options.BotToken))
+var builder = Host.CreateDefaultBuilder(args)
+    .ConfigureAppConfiguration((context, config) =>
     {
-        throw new InvalidOperationException("Telegram configuration is missing or invalid.");
-    }
-    return new TelegramBotClient(options.BotToken);
-});
+        /// <summary>
+        /// Adds the appsettings.json configuration file to the configuration builder.
+        /// </summary>
+        config.AddJsonFile("appsettings.json", optional: true);
+    })
+    .ConfigureServices((context, services) =>
+    {
+        /// <summary>
+        /// Configures application services and dependency injection.
+        /// </summary>
+        services.Configure<TelegramOptions>(context.Configuration.GetSection("Telegram"));
+        services.Configure<KnowledgeBaseOptions>(context.Configuration.GetSection("KnowledgeBase"));
+
+        var telegramOptions = context.Configuration.GetSection("Telegram").Get<TelegramOptions>()!;
+        services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(telegramOptions.BotToken));
+
+        services.AddSingleton<IBotResponsePublisher, TelegramBotResponsePublisher>();
+
+        services.AddSingleton<IKnowledgeBaseService, KnowledgeBaseService>();
+        services.AddHostedService<KnowledgeBaseWorker>();
+
+        services.AddSingleton<UpdateDispatcher>();
+        services.AddSingleton<ISlugMappingService, SlugMappingService>();
+        services.AddSingleton<ISearchStateService, SearchStateService>();
+        services.AddSingleton<ICallbackHandler, CategoryHandler>();
+        services.AddSingleton<ICallbackHandler, SubcategoryHandler>();
+        services.AddSingleton<ICallbackHandler, ArticleHandler>();
+        services.AddSingleton<ICallbackHandler, RatingHandler>();
+        services.AddSingleton<ICallbackHandler, MainMenuHandler>();
+        services.AddSingleton<ICallbackHandler, IgnoreHandler>();
+        services.AddSingleton<ICallbackHandler, SearchMoreHandler>();
+        services.AddSingleton<ICallbackHandler, SearchRestoreHandler>();
+        services.AddSingleton<IMessageHandler, StartMessageHandler>();
+        services.AddSingleton<IMessageHandler, SearchMessageHandler>();
+
+        services.AddHostedService<BotWorker>();
+    });
 
 /// <summary>
-/// Ensures the knowledge base is loaded before starting the bot.
+/// Registers global handlers for unhandled exceptions and unobserved task exceptions.
+/// Ensures the application exits with an error code on fatal errors.
 /// </summary>
-builder.Services.AddHostedService<KnowledgeBaseBackgroundService>();
+AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+{
+    var ex = e.ExceptionObject as Exception;
+    Console.Error.WriteLine($"[FATAL] Unhandled exception: {ex}");
+    Environment.Exit(-1);
+};
+TaskScheduler.UnobservedTaskException += (sender, e) =>
+{
+    Console.Error.WriteLine($"[FATAL] Unobserved task exception: {e.Exception}");
+    e.SetObserved();
+    Environment.Exit(-1);
+};
 
 /// <summary>
-/// Registers the background service that starts the Telegram bot and listens for updates.
+/// Runs the application as a console host.
 /// </summary>
-builder.Services.AddHostedService<BotBackgroundService>();
-
-using var host = builder.Build();
-
-/// <summary>
-/// Runs the host and starts all registered services.
-/// </summary>
-await host.RunAsync();
+await builder.RunConsoleAsync();

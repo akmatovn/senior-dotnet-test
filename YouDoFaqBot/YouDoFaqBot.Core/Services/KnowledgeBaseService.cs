@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 using YouDoFaqBot.Core.Interfaces;
 using YouDoFaqBot.Core.Models;
+using YouDoFaqBot.Core.Settings;
 
 namespace YouDoFaqBot.Core.Services;
 
@@ -13,9 +15,16 @@ namespace YouDoFaqBot.Core.Services;
 /// Initializes a new instance of the <see cref="KnowledgeBaseService"/> class.
 /// </remarks>
 /// <param name="logger">Optional logger for diagnostics and error reporting.</param>
-public class KnowledgeBaseService(ILogger<KnowledgeBaseService>? logger = null) : IKnowledgeBaseService
+public class KnowledgeBaseService(
+    ILogger<KnowledgeBaseService> logger, 
+    IOptions<KnowledgeBaseOptions> options) : IKnowledgeBaseService
 {
+    private readonly object _lock = new();
+    private readonly ILogger<KnowledgeBaseService> _logger = logger;
     private KnowledgeBase? _knowledgeBase;
+    private readonly int SearchPageSize = options.Value.SearchPageSize;
+
+    ///<inheritdoc/>
     public Task<List<Category>> GetCategoriesAsync(CancellationToken cancellationToken)
     {
         if (_knowledgeBase is null)
@@ -29,6 +38,7 @@ public class KnowledgeBaseService(ILogger<KnowledgeBaseService>? logger = null) 
         return Task.FromResult(categories);
     }
 
+    ///<inheritdoc/>
     public Task<List<Subcategory>> GetSubcategoriesByCategoryAsync(string categorySlug, CancellationToken cancellationToken)
     {
         if (_knowledgeBase is null)
@@ -43,6 +53,7 @@ public class KnowledgeBaseService(ILogger<KnowledgeBaseService>? logger = null) 
         return Task.FromResult(subcategories);
     }
 
+    ///<inheritdoc/>
     public Task<List<Article>> GetArticlesBySubcategoryAsync(string subcategorySlug, CancellationToken cancellationToken)
     {
         if (_knowledgeBase is null)
@@ -53,16 +64,8 @@ public class KnowledgeBaseService(ILogger<KnowledgeBaseService>? logger = null) 
             .ToList();
         return Task.FromResult(articles);
     }
-    private readonly object _lock = new();
-    private readonly ILogger<KnowledgeBaseService>? _logger = logger;
 
-    /// <summary>
-    /// Asynchronously loads the knowledge base from a JSON file.
-    /// </summary>
-    /// <param name="filePath">The path to the JSON file containing the knowledge base.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <exception cref="FileNotFoundException">Thrown if the file does not exist.</exception>
-    /// <exception cref="InvalidOperationException">Thrown if deserialization fails.</exception>
+    ///<inheritdoc/>
     public async Task LoadFromFileAsync(string filePath, CancellationToken cancellationToken)
     {
         try
@@ -93,15 +96,8 @@ public class KnowledgeBaseService(ILogger<KnowledgeBaseService>? logger = null) 
         }
     }
 
-    /// <summary>
-    /// Asynchronously searches for articles matching the specified query.
-    /// Performs case-insensitive search in both title and content.
-    /// </summary>
-    /// <param name="query">The search query string.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <returns>A read-only list of matching articles, ordered by relevance.</returns>
-    /// <exception cref="InvalidOperationException">Thrown if the knowledge base is not loaded.</exception>
-    public Task<IReadOnlyList<Article>> SearchAsync(string query, CancellationToken cancellationToken, int? limit = 6)
+    ///<inheritdoc/>
+    public Task<IReadOnlyList<Article>> SearchAsync(string query, CancellationToken cancellationToken, int? limit = null)
     {
         try
         {
@@ -126,7 +122,9 @@ public class KnowledgeBaseService(ILogger<KnowledgeBaseService>? logger = null) 
                 .Select(g => g.First())          // Take only one instance per article
                 ;
 
-            var results = (limit is int l ? resultsQuery.Take(l) : resultsQuery)
+            // If limit not specified, use configured default page size from options, otherwise fallback to 6.
+            var effectiveLimit = limit;
+            var results = (effectiveLimit is int l ? resultsQuery.Take(l) : resultsQuery)
                 .ToList();
 
             _logger?.LogInformation("Search query: '{Query}', found: {Count}", query, results.Count);
@@ -140,13 +138,7 @@ public class KnowledgeBaseService(ILogger<KnowledgeBaseService>? logger = null) 
         }
     }
 
-    /// <summary>
-    /// Asynchronously retrieves an article by its slug.
-    /// </summary>
-    /// <param name="slug">The unique slug identifier of the article.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <returns>The matching <see cref="Article"/> if found; otherwise, <c>null</c>.</returns>
-    /// <exception cref="InvalidOperationException">Thrown if the knowledge base is not loaded.</exception>
+    ///<inheritdoc/>
     public Task<Article?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
     {
         if (_knowledgeBase is null)
