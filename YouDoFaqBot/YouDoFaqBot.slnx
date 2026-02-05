@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  
+  <Project Path="YouDoFaqBot.Core/YouDoFaqBot.Core.csproj" />
+  <Project Path="YouDoFaqBot.App/YouDoFaqBot.App.csproj" />
+  <Project Path="YouDoFaqBot.Tests/YouDoFaqBot.Tests.csproj" />
+</Solution>
