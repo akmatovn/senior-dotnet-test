@@ -55,14 +55,14 @@ public class ArticleHandler(
             var article = await knowledgeBaseService.GetBySlugAsync(slug, cancellationToken);
             if (article is null)
             {
-                await publisher.AnswerCallbackAsync(context.CallbackQueryId, "Article not found", cancellationToken);
+                await publisher.AnswerCallbackAsync(context.CallbackQueryId, BotMessages.ArticleNotFound, cancellationToken);
                 return;
             }
             var content = article.Content;
             // Be conservative: truncate to avoid Telegram 4096 char limit after HTML encoding
             const int MaxContent = 3000;
             if (content.Length > MaxContent)
-                content = content.Substring(0, MaxContent) + "... (read more on website)";
+                content = content.Substring(0, MaxContent) + BotMessages.ReadMoreSuffix;
 
             var html = HtmlUtility.FormatArticleHtml(article.Title, content);
             string rateSuffix;

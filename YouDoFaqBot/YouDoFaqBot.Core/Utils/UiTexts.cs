@@ -11,6 +11,11 @@ public static class UiTexts
     public const string BrowseFaqButton = "\U0001F4DA Browse FAQ";
 
     /// <summary>
+    /// The label for the "Search" button.
+    /// </summary>
+    public const string SearchButton = "\U0001F50D Search";
+
+    /// <summary>
     /// The label for the "Main Menu" button.
     /// </summary>
     public const string MainMenuButton = "\U0001F3E0 Main Menu";

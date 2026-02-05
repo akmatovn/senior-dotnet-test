@@ -50,13 +50,13 @@ public class CategoryHandler(
                 .Select(chunk => (IEnumerable<(string Text, string CallbackData)>)chunk)
                 .ToList();
 
-            keyboardRows.Add([(UiTexts.BackButton, CallbackPrefixes.MainMenu)]);
-            keyboardRows.Add([(UiTexts.MainMenuButton, CallbackPrefixes.MainMenu)]);
+            keyboardRows.Add(new[] { (UiTexts.BackButton, CallbackPrefixes.MainMenu) });
+            keyboardRows.Add(new[] { (UiTexts.MainMenuButton, CallbackPrefixes.MainMenu) });
 
             await publisher.PublishAsync(
                 context,
                 new BotResponse(
-                    HtmlText: "<b>Subcategories</b>\n\nChoose a subcategory:",
+                    HtmlText: BotMessages.SubcategoriesHeader,
                     InlineKeyboard: keyboardRows,
                     EditMessage: context.MessageId.HasValue),
                 cancellationToken);

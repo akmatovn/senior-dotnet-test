@@ -41,7 +41,8 @@ public class SearchMessageHandlerBehaviorTests
             SearchPageSize = 5
         });
 
-        var handler = new SearchMessageHandler(kb.Object, slug, searchState, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
+        var searchMode = new SearchModeService();
+        var handler = new SearchMessageHandler(kb.Object, slug, searchState, searchMode, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
 
         // act
         await handler.HandleAsync(new MessageContext(1, null), "query", CancellationToken.None);
@@ -88,7 +89,8 @@ public class SearchMessageHandlerBehaviorTests
             SearchPageSize = 5
         });
 
-        var handler = new SearchMessageHandler(kb.Object, slug, searchState, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
+        var searchMode = new SearchModeService();
+        var handler = new SearchMessageHandler(kb.Object, slug, searchState, searchMode, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
         await handler.HandleAsync(new MessageContext(1, null), "q", CancellationToken.None);
 
         published.Should().NotBeNull();

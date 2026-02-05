@@ -47,7 +47,8 @@ public class SearchRestoreTests
             SearchPageSize = 5
         });
 
-        var searchHandler = new SearchMessageHandler(kb.Object, slugService, searchState, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
+        var searchMode = new SearchModeService();
+        var searchHandler = new SearchMessageHandler(kb.Object, slugService, searchState, searchMode: searchMode, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
         var articleHandler = new ArticleHandler(kb.Object, slugService, publisher.Object, NullLogger<ArticleHandler>.Instance);
         var restoreHandler = new SearchRestoreHandler(kb.Object, slugService, searchState, publisher.Object, NullLogger<SearchRestoreHandler>.Instance);
 

@@ -56,24 +56,26 @@ public class RatingHandler(
 
             if (context.MessageId is int messageId)
             {
-                var rows = new List<IEnumerable<(string Text, string CallbackData)>>();
-                rows.Add(new[] { (UiTexts.FeedbackAcceptedButton, CallbackPrefixes.Ignore) });
+                var rows = new List<IEnumerable<(string Text, string CallbackData)>>
+                {
+                    ([(UiTexts.FeedbackAcceptedButton, CallbackPrefixes.Ignore)])
+                };
                 if (searchVisible is int visible)
                 {
-                    rows.Add(new[] { (UiTexts.BackButton, CallbackPrefixes.SearchRestore + visible) });
+                    rows.Add([(UiTexts.BackButton, CallbackPrefixes.SearchRestore + visible)]);
                 }
                 else if (!string.IsNullOrEmpty(subHash))
                 {
-                    rows.Add(new[] { (UiTexts.BackButton, CallbackPrefixes.Subcategory + subHash) });
+                    rows.Add([(UiTexts.BackButton, CallbackPrefixes.Subcategory + subHash)]);
                 }
-                rows.Add(new[] { (UiTexts.MainMenuButton, CallbackPrefixes.MainMenu) });
+                rows.Add([(UiTexts.MainMenuButton, CallbackPrefixes.MainMenu)]);
 
                 await publisher.EditReplyMarkupAsync(context.ChatId, messageId, rows, cancellationToken);
             }
         }
         finally
         {
-            await publisher.AnswerCallbackAsync(context.CallbackQueryId, "Thanks for your feedback!", cancellationToken);
+            await publisher.AnswerCallbackAsync(context.CallbackQueryId, BotMessages.FeedbackThanks, cancellationToken);
         }
     }
 }

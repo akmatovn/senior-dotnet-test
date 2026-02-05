@@ -41,6 +41,7 @@ var builder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<UpdateDispatcher>();
         services.AddSingleton<ISlugMappingService, SlugMappingService>();
         services.AddSingleton<ISearchStateService, SearchStateService>();
+        services.AddSingleton<ISearchModeService, SearchModeService>();
         services.AddSingleton<ICallbackHandler, CategoryHandler>();
         services.AddSingleton<ICallbackHandler, SubcategoryHandler>();
         services.AddSingleton<ICallbackHandler, ArticleHandler>();
@@ -48,6 +49,7 @@ var builder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ICallbackHandler, MainMenuHandler>();
         services.AddSingleton<ICallbackHandler, IgnoreHandler>();
         services.AddSingleton<ICallbackHandler, SearchMoreHandler>();
+        services.AddSingleton<ICallbackHandler, SearchStartHandler>();
         services.AddSingleton<ICallbackHandler, SearchRestoreHandler>();
         services.AddSingleton<IMessageHandler, StartMessageHandler>();
         services.AddSingleton<IMessageHandler, SearchMessageHandler>();

@@ -61,7 +61,7 @@ public class SubcategoryHandler(
             await publisher.PublishAsync(
                 context,
                 new BotResponse(
-                    HtmlText: "<b>Articles</b>\n\nChoose an article:",
+                    HtmlText: BotMessages.ArticlesHeader,
                     InlineKeyboard: keyboardRows,
                     EditMessage: context.MessageId.HasValue),
                 cancellationToken);

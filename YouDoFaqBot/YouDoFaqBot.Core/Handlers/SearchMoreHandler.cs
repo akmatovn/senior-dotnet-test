@@ -72,7 +72,7 @@ public class SearchMoreHandler(
             await publisher.PublishAsync(
                 context,
                 new BotResponse(
-                    HtmlText: "<b>Search Results</b>\n\nI found these articles for your query:",
+                    HtmlText: BotMessages.SearchResultsHeader,
                     InlineKeyboard: rows,
                     EditMessage: context.MessageId.HasValue),
                 cancellationToken);

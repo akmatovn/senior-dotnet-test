@@ -32,7 +32,8 @@ public class SearchMessageHandlerTests
             SearchPageSize = 5
         });
 
-        var h = new SearchMessageHandler(kb.Object, slug, searchState, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
+        var searchMode = new SearchModeService();
+        var h = new SearchMessageHandler(kb.Object, slug, searchState, searchMode, publisher.Object, NullLogger<SearchMessageHandler>.Instance, options.Object);
         await h.HandleAsync(new MessageContext(1, null), "q", CancellationToken.None);
 
         resp.Should().NotBeNull();

@@ -21,6 +21,7 @@ public class SearchMessageHandler(
     IKnowledgeBaseService knowledgeBaseService,
     ISlugMappingService slugMapping,
     ISearchStateService searchState,
+    ISearchModeService searchMode,
     IBotResponsePublisher publisher,
     ILogger<SearchMessageHandler> logger,
     IOptions<KnowledgeBaseOptions> options) : IMessageHandler
@@ -29,12 +30,25 @@ public class SearchMessageHandler(
 
     ///<inheritdoc/>
     public bool CanHandle(MessageContext context, string messageText)
-        => !string.IsNullOrWhiteSpace(messageText) && messageText is not "/start" && messageText != UiTexts.BrowseFaqButton;
+    {
+        if (string.IsNullOrWhiteSpace(messageText) || messageText == Commands.Start || messageText == UiTexts.BrowseFaqButton)
+            return false;
+
+        // Allow search if chat is in search mode or user used explicit /search command
+        if (messageText.StartsWith(Commands.SearchPrefix))
+            return true;
+
+        if (searchMode.TryGet(context.ChatId, out var awaiting) && awaiting)
+            return true;
+
+        return false;
+    }
 
     ///<inheritdoc/>
     public async Task HandleAsync(MessageContext context, string messageText, CancellationToken cancellationToken)
     {
-        var query = messageText.Trim();
+        // strip command prefix when user sent "/search <query>"
+        var query = messageText.StartsWith(Commands.SearchPrefix) ? messageText.Substring(Commands.SearchPrefix.Length).Trim() : messageText.Trim();
         logger.LogInformation("Search query from chat {ChatId}: {Query}", context.ChatId, query);
 
         var results = await knowledgeBaseService.SearchAsync(query, cancellationToken, limit: SearchPageSize);
@@ -42,12 +56,16 @@ public class SearchMessageHandler(
         {
             await publisher.PublishAsync(
                 new CallbackContext(context.ChatId, context.MessageId, string.Empty),
-                new BotResponse("Sorry, nothing was found for your query."),
+                new BotResponse(BotMessages.SearchNotFound),
                 cancellationToken);
+            // exit search mode if active
+            searchMode.Clear(context.ChatId);
             return;
         }
 
         searchState.Set(context.ChatId, query, SearchPageSize);
+        // exit search mode after performing search
+        searchMode.Clear(context.ChatId);
         // When user sends a text message, publish results as a new message (do not try to edit the user's message)
         await PublishSearchResultsAsync(context.ChatId, null, query, SearchPageSize, cancellationToken);
     }
@@ -92,7 +110,7 @@ public class SearchMessageHandler(
         await publisher.PublishAsync(
             new CallbackContext(chatId, messageId, string.Empty),
             new BotResponse(
-                HtmlText: "<b>Search Results</b>\n\nI found these articles for your query:",
+                HtmlText: BotMessages.SearchResultsHeader,
                 InlineKeyboard: rows,
                 EditMessage: messageId.HasValue),
             cancellationToken);

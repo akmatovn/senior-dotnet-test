@@ -46,7 +46,7 @@ public class SearchRestoreHandler(
             {
                 // no state -> go to main menu
                 logger.LogInformation("No search state found for chat {ChatId}", context.ChatId);
-                await publisher.PublishAsync(context, new BotResponse("No search state."), cancellationToken);
+                await publisher.PublishAsync(context, new BotResponse(BotMessages.NoSearchState), cancellationToken);
                 return;
             }
 
@@ -78,15 +78,15 @@ public class SearchRestoreHandler(
                 .ToList();
 
             if (all.Count > clamped)
-                rows.Add(new[] { (UiTexts.MoreButton, CallbackPrefixes.SearchMore) });
-            rows.Add(new[] { (UiTexts.MainMenuButton, CallbackPrefixes.MainMenu) });
+                rows.Add([(UiTexts.MoreButton, CallbackPrefixes.SearchMore)]);
+            rows.Add([(UiTexts.MainMenuButton, CallbackPrefixes.MainMenu)]);
 
             // edit existing message with restored results
             logger.LogInformation("Publishing restored search results to chat {ChatId} (edit={Edit})", context.ChatId, context.MessageId.HasValue);
             await publisher.PublishAsync(
                 context,
                 new BotResponse(
-                    HtmlText: "<b>Search Results</b>\n\nI found these articles for your query:",
+                    HtmlText: BotMessages.SearchResultsHeader,
                     InlineKeyboard: rows,
                     EditMessage: context.MessageId.HasValue),
                 cancellationToken);

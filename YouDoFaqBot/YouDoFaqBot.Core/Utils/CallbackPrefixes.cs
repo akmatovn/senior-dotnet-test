@@ -52,4 +52,9 @@ public static class CallbackPrefixes
     /// Prefix for restoring a previous search.
     /// </summary>
     public const string SearchRestore = "search:";
+
+    /// <summary>
+    /// Prefix for initiating a search (shows prompt to enter query).
+    /// </summary>
+    public const string SearchStart = "search_start";
 }

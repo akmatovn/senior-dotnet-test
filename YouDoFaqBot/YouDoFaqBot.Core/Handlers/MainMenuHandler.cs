@@ -20,8 +20,6 @@ public class MainMenuHandler(
     IBotResponsePublisher publisher,
     ILogger<MainMenuHandler> logger) : ICallbackHandler
 {
-    private const string MenuText = "<b>FAQ Categories</b>\n\nChoose a category:";
-
     ///<inheritdoc/>
     public bool CanHandle(string callbackData) => callbackData == CallbackPrefixes.MainMenu;
 
@@ -42,12 +40,14 @@ public class MainMenuHandler(
                 .Select(chunk => (IEnumerable<(string Text, string CallbackData)>)chunk)
                 .ToList();
 
-            keyboard.Add(new[] { (UiTexts.MainMenuButton, CallbackPrefixes.MainMenu) });
+            // add search button alongside main menu button
+            keyboard.Add([(UiTexts.SearchButton, CallbackPrefixes.SearchStart)]);
+            keyboard.Add([(UiTexts.MainMenuButton, CallbackPrefixes.MainMenu)]);
 
             await publisher.PublishAsync(
                 context,
                 new BotResponse(
-                    HtmlText: MenuText,
+                    HtmlText: BotMessages.MainMenuHeader,
                     InlineKeyboard: keyboard,
                     EditMessage: context.MessageId.HasValue),
                 cancellationToken);

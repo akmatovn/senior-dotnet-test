@@ -16,7 +16,7 @@ public class StartMessageHandler(
 {
     ///<inheritdoc/>
     public bool CanHandle(MessageContext context, string messageText)
-        => messageText is "/start" or UiTexts.BrowseFaqButton;
+        => messageText is Commands.Start or UiTexts.BrowseFaqButton;
 
     ///<inheritdoc/>
     public async Task HandleAsync(MessageContext context, string messageText, CancellationToken cancellationToken)
@@ -25,15 +25,15 @@ public class StartMessageHandler(
 
         var keyboard = new[]
         {
-            new[] { (UiTexts.BrowseFaqButton, CallbackPrefixes.MainMenu) }
+            new[] { (UiTexts.BrowseFaqButton, CallbackPrefixes.MainMenu), (UiTexts.SearchButton, CallbackPrefixes.SearchStart) }
         };
 
-        var response = messageText == "/start"
+        var response = messageText == Commands.Start
             ? new BotResponse(
-                HtmlText: $"Welcome! Tap <b>{UiTexts.BrowseFaqButton}</b> to browse the FAQ.",
+                HtmlText: string.Format(BotMessages.WelcomeTemplate, UiTexts.BrowseFaqButton),
                 InlineKeyboard: keyboard)
             : new BotResponse(
-                HtmlText: "Opening main menu...",
+                HtmlText: BotMessages.OpeningMainMenu,
                 InlineKeyboard: keyboard);
 
         await publisher.PublishAsync(

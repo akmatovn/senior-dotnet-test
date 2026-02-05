@@ -1,10 +1,9 @@
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
+using YouDoFaqBot.Core.Handlers.MessageHandlers;
 using YouDoFaqBot.Core.Interfaces;
 using YouDoFaqBot.Core.Models;
-using YouDoFaqBot.Core.Handlers;
-using YouDoFaqBot.Core.Handlers.MessageHandlers;
 using YouDoFaqBot.Core.Utils;
 
 namespace YouDoFaqBot.Tests.Handlers;
@@ -20,9 +19,9 @@ public class StartMessageHandlerTests
             .Callback<CallbackContext, BotResponse, CancellationToken>((c, r, t) => published = r)
             .Returns(Task.CompletedTask);
 
-        var handler = new YouDoFaqBot.Core.Handlers.MessageHandlers.StartMessageHandler(publisher.Object, new Mock<ILogger<YouDoFaqBot.Core.Handlers.MessageHandlers.StartMessageHandler>>().Object);
+        var handler = new StartMessageHandler(publisher.Object, new Mock<ILogger<StartMessageHandler>>().Object);
 
-        await handler.HandleAsync(new MessageContext(1, null), "/start", CancellationToken.None);
+        await handler.HandleAsync(new MessageContext(1, null), Commands.Start, CancellationToken.None);
 
         published.Should().NotBeNull();
         published!.InlineKeyboard.Should().NotBeNull();
